@@ -43,65 +43,43 @@ export default function App() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: "#f0f2f5" }}>
+    <div className="min-h-screen bg-gray-100">
       {/* Toast Notifications */}
       <ToastContainer position="top-right" autoClose={3000} />
 
       {/* Navigation Bar */}
-      <nav style={{
-        backgroundColor: "#fff",
-        padding: "15px 30px",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-        marginBottom: "20px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center"
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <h1 style={{ margin: 0, fontSize: "24px", color: "#333" }}>Guidance Board</h1>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button 
+      <nav className="bg-white px-6 py-4 shadow-sm mb-5 flex justify-between items-center">
+        <div className="flex items-center gap-5">
+          <h1 className="m-0 text-2xl text-gray-800 font-bold">Guidance Board</h1>
+          <div className="flex gap-2">
+            <button
               onClick={() => setCurrentPage("home")}
-              style={{
-                padding: "8px 16px", 
-                backgroundColor: currentPage === "home" ? "#007bff" : "transparent",
-                color: currentPage === "home" ? "white" : "#007bff",
-                border: "1px solid #007bff",
-                borderRadius: "4px",
-                cursor: "pointer"
-              }}
+              className={`px-4 py-2 rounded border ${currentPage === "home"
+                ? "bg-blue-600 text-white border-blue-600"
+                : "text-blue-600 border-blue-600 bg-transparent"
+                }`}
             >
               Home
             </button>
-            <button 
+            <button
               onClick={() => setCurrentPage("forum")}
-              style={{
-                padding: "8px 16px", 
-                backgroundColor: currentPage === "forum" ? "#6c757d" : "transparent",
-                color: currentPage === "forum" ? "white" : "#6c757d",
-                border: "1px solid #6c757d",
-                borderRadius: "4px",
-                cursor: "pointer"
-              }}
+              className={`px-4 py-2 rounded border ${currentPage === "forum"
+                ? "bg-gray-600 text-white border-gray-600"
+                : "text-gray-600 border-gray-600 bg-transparent"
+                }`}
             >
               Forum
             </button>
           </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-          <span style={{ color: "#666" }}>
+
+        <div className="flex items-center gap-4">
+          <span className="text-gray-600">
             <strong>{user.username}</strong> ({user.role})
           </span>
-          <button 
+          <button
             onClick={handleLogout}
-            style={{
-              padding: "8px 16px", 
-              backgroundColor: "#dc3545", 
-              color: "white", 
-              border: "none", 
-              borderRadius: "4px", 
-              cursor: "pointer"
-            }}
+            className="px-4 py-2 bg-red-600 text-white rounded"
           >
             Logout
           </button>
@@ -109,17 +87,15 @@ export default function App() {
       </nav>
 
       {/* Page Content */}
-      <div style={{ padding: "0 20px" }}>
+      <div className="px-5">
         {currentPage === "home" && (
           <>
-            
             <Announcements role={user.role} />
             <Resources role={user.role} />
           </>
         )}
-        {currentPage === "forum" && (
-          <ForumPosts role={user.role} />
-        )}
+
+        {currentPage === "forum" && <ForumPosts role={user.role} />}
         {user.role === "admin" && <Accounts role={user.role} />}
       </div>
     </div>

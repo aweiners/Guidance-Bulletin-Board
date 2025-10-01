@@ -7,7 +7,9 @@ export default function Resources({ role }) {
   const [editingId, setEditingId] = useState(null);
   const token = localStorage.getItem("token");
 
-  useEffect(() => { fetchResources(); }, [role]);
+  useEffect(() => {
+    fetchResources();
+  }, [role]);
 
   const fetchResources = () => {
     fetch("http://localhost:5000/resources")
@@ -19,12 +21,15 @@ export default function Resources({ role }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (role !== "admin") return toast.error("Admin only");
+
     if (!form.title.trim() || !form.description.trim()) {
       return toast.error("Title and description cannot be empty");
     }
+
     if (form.file_url && !/^(https?:\/\/[^\s]+)$/i.test(form.file_url)) {
       return toast.error("Invalid file URL");
     }
+
     if (editingId && !window.confirm("Update this resource?")) return;
 
     const method = editingId ? "PUT" : "POST";
@@ -67,33 +72,36 @@ export default function Resources({ role }) {
   };
 
   return (
-    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}>
-      <div style={{ backgroundColor: "#f8f9fa", borderRadius: "8px", padding: "20px", marginBottom: "20px" }}>
-        <h2 style={{ marginTop: 0, color: "#333", borderBottom: "2px solid #17a2b8", paddingBottom: "10px" }}>Resources</h2>
+    <div className="max-w-[900px] mx-auto p-5">
+      <div className="bg-gray-100 rounded-lg p-5 mb-5">
+        <h2 className="mt-0 text-gray-800 border-b-2 border-teal-500 pb-2">Resources</h2>
 
         {role === "admin" && (
-          <form onSubmit={handleSubmit} style={{ backgroundColor: "white", padding: "15px", borderRadius: "6px", marginBottom: "20px" }}>
+          <form onSubmit={handleSubmit} className="bg-white p-4 rounded-lg mb-5">
             <input
               placeholder="Title"
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
-              style={{ width: "100%", padding: "8px", marginBottom: "10px", borderRadius: "4px", border: "1px solid #ddd" }}
+              className="w-full p-2 mb-2 rounded border border-gray-300"
               required
             />
             <textarea
               placeholder="Description"
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
-              style={{ width: "100%", padding: "8px", marginBottom: "10px", borderRadius: "4px", border: "1px solid #ddd" }}
+              className="w-full p-2 mb-2 rounded border border-gray-300"
               required
             ></textarea>
             <input
               placeholder="File URL"
               value={form.file_url}
               onChange={(e) => setForm({ ...form, file_url: e.target.value })}
-              style={{ width: "100%", padding: "8px", marginBottom: "10px", borderRadius: "4px", border: "1px solid #ddd" }}
+              className="w-full p-2 mb-2 rounded border border-gray-300"
             />
-            <button type="submit" style={{ padding: "10px 20px", backgroundColor: "#17a2b8", color: "white", border: "none", borderRadius: "4px" }}>
+            <button
+              type="submit"
+              className="px-5 py-2 bg-teal-600 text-white rounded"
+            >
               {editingId ? "Update" : "Add"} Resource
             </button>
           </form>
@@ -101,14 +109,29 @@ export default function Resources({ role }) {
 
         {resources.length > 0 ? (
           resources.map(r => (
-            <div key={r.id} style={{ backgroundColor: "white", padding: "15px", borderRadius: "6px", marginBottom: "10px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
-              <h3 style={{ margin: "0 0 10px 0", color: "#17a2b8" }}>{r.title}</h3>
-              <p style={{ margin: "0 0 10px 0" }}>{r.description}</p>
-              {r.file_url && <a href={r.file_url} target="_blank" rel="noopener noreferrer">View File →</a>}
+            <div key={r.id} className="bg-white p-4 rounded-lg mb-2 shadow-sm">
+              <h3 className="m-0 mb-2 text-teal-600">{r.title}</h3>
+              <p className="m-0 mb-2">{r.description}</p>
+              {r.file_url && (
+                <a href={r.file_url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                  View File →
+                </a>
+              )}
+
               {role === "admin" && (
-                <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
-                  <button onClick={() => handleEdit(r)} style={{ backgroundColor: "#28a745", color: "white", padding: "6px 12px" }}>Edit</button>
-                  <button onClick={() => handleDelete(r.id)} style={{ backgroundColor: "#dc3545", color: "white", padding: "6px 12px" }}>Delete</button>
+                <div className="flex gap-2 mt-2">
+                  <button
+                    onClick={() => handleEdit(r)}
+                    className="bg-green-600 text-white px-3 py-1 rounded"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(r.id)}
+                    className="bg-red-600 text-white px-3 py-1 rounded"
+                  >
+                    Delete
+                  </button>
                 </div>
               )}
             </div>

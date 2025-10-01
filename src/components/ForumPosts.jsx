@@ -130,41 +130,30 @@ export default function ForumPosts({ role }) {
 
   if (!token) {
     return (
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}>
-        <div style={{ backgroundColor: "#fff3cd", border: "1px solid #ffc107", borderRadius: "8px", padding: "40px 20px", textAlign: "center" }}>
-          <h2 style={{ color: "#856404", marginTop: 0, fontSize: "24px" }}>🔒 Forum Access Restricted</h2>
-          <p style={{ color: "#856404", fontSize: "16px" }}>You must log in to view and post in the forum.</p>
+      <div className="max-w-[900px] mx-auto p-5">
+        <div className="bg-yellow-100 border border-yellow-500 rounded-lg p-10 text-center">
+          <h2 className="text-yellow-800 mt-0 text-2xl">🔒 Forum Access Restricted</h2>
+          <p className="text-yellow-800 text-lg">You must log in to view and post in the forum.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}>
-      <div style={{ backgroundColor: "#f8f9fa", borderRadius: "8px", padding: "20px" }}>
-        <form onSubmit={handleSubmit} style={{
-          backgroundColor: "white",
-          padding: "20px",
-          borderRadius: "6px",
-          marginBottom: "20px",
-          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-          border: editingId ? "2px solid #ffc107" : "none"
-        }}>
+    <div className="max-w-[900px] mx-auto p-5">
+      <div className="bg-gray-100 rounded-lg p-5">
+        <form
+          onSubmit={handleSubmit}
+          className={`bg-white p-5 rounded-lg mb-5 shadow-sm ${editingId ? "border-2 border-yellow-500" : ""}`}
+        >
           {editingId && (
-            <div style={{
-              backgroundColor: "#fff3cd",
-              color: "#856404",
-              padding: "10px",
-              borderRadius: "4px",
-              marginBottom: "15px",
-              fontSize: "14px"
-            }}>
+            <div className="bg-yellow-100 text-yellow-800 p-2 rounded mb-4 text-sm">
               ✏️ Editing post...
             </div>
           )}
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "8px", color: "#555", fontSize: "14px", fontWeight: "500" }}>
+          <div className="mb-4">
+            <label className="block mb-2 text-gray-600 text-sm font-medium">
               Title
             </label>
             <input
@@ -172,61 +161,34 @@ export default function ForumPosts({ role }) {
               placeholder="Enter post title"
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
-              style={{
-                width: "100%",
-                padding: "8px",
-                borderRadius: "4px",
-                border: "1px solid #ddd",
-                boxSizing: "border-box"
-              }}
+              className="w-full p-2 rounded border border-gray-300"
               required
             />
           </div>
 
-          <div style={{ marginBottom: "15px" }}>
-            <label style={{ display: "block", marginBottom: "8px", color: "#555", fontSize: "14px", fontWeight: "500" }}>
+          <div className="mb-4">
+            <label className="block mb-2 text-gray-600 text-sm font-medium">
               {editingId ? "Edit your post" : "What's on your mind?"}
             </label>
             <textarea
               placeholder="Share your thoughts with the community..."
               value={form.post_content}
               onChange={(e) => setForm({ ...form, post_content: e.target.value })}
-              style={{
-                width: "100%",
-                padding: "12px",
-                borderRadius: "4px",
-                border: "1px solid #ddd",
-                minHeight: "120px",
-                fontSize: "14px",
-                boxSizing: "border-box",
-                fontFamily: "inherit",
-                resize: "vertical"
-              }}
+              className="w-full p-3 rounded border border-gray-300 min-h-[120px] text-sm font-sans resize-y"
               required
             ></textarea>
           </div>
 
           {role === "admin" && editingId && (
-            <div style={{ marginBottom: "15px" }}>
-              <label style={{
-                display: "block",
-                marginBottom: "8px",
-                color: "#555",
-                fontSize: "14px",
-                fontWeight: "500"
-              }}>
+            <div className="mb-4">
+              <label className="block mb-2 text-gray-600 text-sm font-medium">
                 Post Status
               </label>
               <select
                 value={form.status}
                 onChange={(e) => setForm({ ...form, status: e.target.value })}
-                style={{
-                  width: "100%",
-                  padding: "8px",
-                  borderRadius: "4px",
-                  border: "1px solid #ddd",
-                  boxSizing: "border-box"
-                }}>
+                className="w-full p-2 rounded border border-gray-300"
+              >
                 <option value="pending">⏳ Pending</option>
                 <option value="approved">✅ Approved</option>
                 <option value="denied">❌ Denied</option>
@@ -234,74 +196,45 @@ export default function ForumPosts({ role }) {
             </div>
           )}
 
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button type="submit" style={{
-              padding: "10px 20px",
-              backgroundColor: "#6c757d",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-              fontSize: "14px",
-              fontWeight: "500"
-            }}>
+          <div className="flex gap-3">
+            <button
+              type="submit"
+              className="px-5 py-2 bg-gray-600 text-white rounded cursor-pointer text-sm font-medium"
+            >
               {editingId ? "💾 Update Post" : "📝 Post to Forum"}
             </button>
             {editingId && (
-              <button type="button" onClick={handleCancelEdit} style={{
-                padding: "10px 20px",
-                backgroundColor: "white",
-                color: "#6c757d",
-                border: "1px solid #6c757d",
-                borderRadius: "4px",
-                cursor: "pointer",
-                fontSize: "14px",
-                fontWeight: "500"
-              }}>
+              <button
+                type="button"
+                onClick={handleCancelEdit}
+                className="px-5 py-2 bg-white text-gray-600 border border-gray-600 rounded cursor-pointer text-sm font-medium"
+              >
                 Cancel
               </button>
             )}
           </div>
         </form>
 
-        {/* Posts List */}
-        <h3 style={{ color: "#555", fontSize: "16px", marginBottom: "15px", fontWeight: "600" }}>
-          Recent Posts
-        </h3>
+        <h3 className="text-gray-600 text-base mb-4 font-semibold">Recent Posts</h3>
 
         {forumPosts.length > 0 ? (
           forumPosts.map(f => (
-            <div key={f.id} style={{
-              backgroundColor: "white",
-              padding: "20px",
-              borderRadius: "6px",
-              marginBottom: "12px",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
-              border: "1px solid #e9ecef"
-            }}>
-              <h4 style={{ margin: "0 0 10px 0", color: "#007bff" }}>{f.title}</h4>
-              <p style={{ margin: "0 0 15px 0", color: "#333" }}>{f.post_content}</p>
-              
-              {/* CHANGE: Approved status will show as "anonymous" */}
-              <small style={{ display: "block", marginBottom: "10px" }}>
+            <div
+              key={f.id}
+              className="bg-white p-5 rounded-lg mb-3 shadow-sm border border-gray-200"
+            >
+              <h4 className="m-0 mb-2 text-blue-600">{f.title}</h4>
+              <p className="m-0 mb-3 text-gray-800">{f.post_content}</p>
+              <small className="block mb-2">
                 {f.status === "approved" ? "anonymous" : f.status}
               </small>
 
               {role === "admin" && (
-                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                <div className="flex gap-2 flex-wrap">
                   {f.status !== "approved" && (
                     <button
                       onClick={() => handleStatusChange(f.id, "approved")}
-                      style={{
-                        padding: "6px 12px",
-                        backgroundColor: "#28a745",
-                        color: "white",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        fontSize: "12px",
-                        fontWeight: "500"
-                      }}
+                      className="px-3 py-1 bg-green-600 text-white rounded cursor-pointer text-xs font-medium"
                     >
                       ✅ Approve
                     </button>
@@ -309,32 +242,14 @@ export default function ForumPosts({ role }) {
                   {f.status !== "denied" && (
                     <button
                       onClick={() => handleStatusChange(f.id, "denied")}
-                      style={{
-                        padding: "6px 12px",
-                        backgroundColor: "#ffc107",
-                        color: "#333",
-                        border: "none",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                        fontSize: "12px",
-                        fontWeight: "500"
-                      }}
+                      className="px-3 py-1 bg-yellow-400 text-gray-800 rounded cursor-pointer text-xs font-medium"
                     >
                       ❌ Deny
                     </button>
                   )}
                   <button
                     onClick={() => handleDelete(f.id)}
-                    style={{
-                      padding: "6px 12px",
-                      backgroundColor: "#dc3545",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "4px",
-                      cursor: "pointer",
-                      fontSize: "12px",
-                      fontWeight: "500"
-                    }}
+                    className="px-3 py-1 bg-red-600 text-white rounded cursor-pointer text-xs font-medium"
                   >
                     🗑️ Delete
                   </button>
@@ -343,7 +258,7 @@ export default function ForumPosts({ role }) {
             </div>
           ))
         ) : (
-          <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "6px", textAlign: "center" }}>
+          <div className="bg-white p-5 rounded-lg text-center">
             No forum posts yet.
           </div>
         )}

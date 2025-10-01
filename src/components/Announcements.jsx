@@ -24,12 +24,15 @@ export default function Announcements({ role }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (role !== "admin") return toast.error("Admin only");
+
     if (!form.title.trim() || !form.content.trim()) {
       return toast.error("Title and content cannot be empty");
     }
+
     if (form.embed_url && !/^(https?:\/\/[^\s]+)$/i.test(form.embed_url)) {
       return toast.error("Invalid embed URL");
     }
+
     if (editingId && !window.confirm("Update this announcement?")) return;
 
     const method = editingId ? "PUT" : "POST";
@@ -72,41 +75,47 @@ export default function Announcements({ role }) {
   };
 
   return (
-    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}>
-      <div style={{ backgroundColor: "#f8f9fa", borderRadius: "8px", padding: "20px", marginBottom: "20px" }}>
-        <h2 style={{ marginTop: 0, color: "#333", borderBottom: "2px solid #007bff", paddingBottom: "10px" }}>
+    <div className="max-w-[900px] mx-auto p-5">
+      <div className="bg-gray-100 rounded-lg p-5 mb-5">
+        <h2 className="mt-0 text-gray-800 border-b-2 border-blue-600 pb-2">
           Announcements
         </h2>
 
         {role === "admin" && (
-          <form onSubmit={handleSubmit} style={{ backgroundColor: "white", padding: "15px", borderRadius: "6px", marginBottom: "20px" }}>
-            <div style={{ marginBottom: "10px" }}>
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white p-4 rounded-lg mb-5"
+          >
+            <div className="mb-2">
               <input
                 placeholder="Title"
                 value={form.title}
                 onChange={(e) => setForm({ ...form, title: e.target.value })}
-                style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
+                className="w-full p-2 rounded border border-gray-300"
                 required
               />
             </div>
-            <div style={{ marginBottom: "10px" }}>
+            <div className="mb-2">
               <textarea
                 placeholder="Content"
                 value={form.content}
                 onChange={(e) => setForm({ ...form, content: e.target.value })}
-                style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd", minHeight: "80px" }}
+                className="w-full p-2 rounded border border-gray-300 min-h-[80px]"
                 required
               ></textarea>
             </div>
-            <div style={{ marginBottom: "10px" }}>
+            <div className="mb-2">
               <input
                 placeholder="Embed URL"
                 value={form.embed_url}
                 onChange={(e) => setForm({ ...form, embed_url: e.target.value })}
-                style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd" }}
+                className="w-full p-2 rounded border border-gray-300"
               />
             </div>
-            <button type="submit" style={{ padding: "10px 20px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}>
+            <button
+              type="submit"
+              className="px-5 py-2 bg-blue-600 text-white rounded cursor-pointer"
+            >
               {editingId ? "Update" : "Add"} Announcement
             </button>
           </form>
@@ -115,19 +124,25 @@ export default function Announcements({ role }) {
         <div>
           {announcements.length > 0 ? (
             announcements.map(a => (
-              <div key={a.id} style={{ backgroundColor: "white", padding: "15px", borderRadius: "6px", marginBottom: "10px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }}>
-                <h3 style={{ margin: "0 0 10px 0", color: "#007bff" }}>{a.title}</h3>
-                <p style={{ margin: "0 0 10px 0", color: "#555" }}>{a.content}</p>
+              <div
+                key={a.id}
+                className="bg-white p-4 rounded-lg mb-2 shadow-sm"
+              >
+                <h3 className="m-0 mb-2 text-blue-600">{a.title}</h3>
+                <p className="m-0 mb-2 text-gray-700">{a.content}</p>
+
                 {role === "admin" && (
-                  <div style={{ display: "flex", gap: "8px" }}>
+                  <div className="flex gap-2">
                     <button
                       onClick={() => handleEdit(a)}
-                      style={{ padding: "6px 12px", backgroundColor: "#28a745", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}>
+                      className="px-3 py-1 bg-green-600 text-white rounded cursor-pointer"
+                    >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(a.id)}
-                      style={{ padding: "6px 12px", backgroundColor: "#dc3545", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}>
+                      className="px-3 py-1 bg-red-600 text-white rounded cursor-pointer"
+                    >
                       Delete
                     </button>
                   </div>
@@ -135,7 +150,7 @@ export default function Announcements({ role }) {
               </div>
             ))
           ) : (
-            <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "6px", textAlign: "center", color: "#999" }}>
+            <div className="bg-white p-5 rounded-lg text-center text-gray-500">
               No announcements available
             </div>
           )}

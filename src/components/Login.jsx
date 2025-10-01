@@ -19,10 +19,8 @@ export default function Login({ onLogin }) {
         setError(data.error || "Login failed");
         return;
       }
-      // Save token & user info in localStorage for later requests
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
-      // Pass the user object up to App.jsx
       onLogin(data.user);
     } catch (err) {
       console.error(err);
@@ -31,40 +29,15 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div style={{ 
-      minHeight: "100vh", 
-      backgroundColor: "#f0f2f5", 
-      display: "flex", 
-      alignItems: "center", 
-      justifyContent: "center" 
-    }}>
-      <div style={{ 
-        backgroundColor: "white", 
-        padding: "40px", 
-        borderRadius: "8px", 
-        boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-        width: "100%",
-        maxWidth: "400px"
-      }}>
-        <h2 style={{ 
-          textAlign: "center", 
-          color: "#333", 
-          marginTop: 0,
-          marginBottom: "30px",
-          fontSize: "28px"
-        }}>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-white p-10 rounded-lg shadow-md w-full max-w-md">
+        <h2 className="text-center text-gray-800 mt-0 mb-8 text-2xl font-bold">
           Guidance Board Login
         </h2>
-        
+
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "20px" }}>
-            <label style={{ 
-              display: "block", 
-              marginBottom: "8px", 
-              color: "#555", 
-              fontSize: "14px",
-              fontWeight: "500"
-            }}>
+          <div className="mb-5">
+            <label className="block mb-2 text-gray-600 text-sm font-medium">
               Username
             </label>
             <input
@@ -72,26 +45,13 @@ export default function Login({ onLogin }) {
               placeholder="Enter your username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              style={{ 
-                width: "100%", 
-                padding: "12px", 
-                borderRadius: "4px", 
-                border: "1px solid #ddd",
-                fontSize: "14px",
-                boxSizing: "border-box"
-              }}
+              className="w-full p-3 rounded border border-gray-300 text-sm"
               required
             />
           </div>
 
-          <div style={{ marginBottom: "20px" }}>
-            <label style={{ 
-              display: "block", 
-              marginBottom: "8px", 
-              color: "#555", 
-              fontSize: "14px",
-              fontWeight: "500"
-            }}>
+          <div className="mb-5">
+            <label className="block mb-2 text-gray-600 text-sm font-medium">
               Password
             </label>
             <input
@@ -99,59 +59,26 @@ export default function Login({ onLogin }) {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{ 
-                width: "100%", 
-                padding: "12px", 
-                borderRadius: "4px", 
-                border: "1px solid #ddd",
-                fontSize: "14px",
-                boxSizing: "border-box"
-              }}
+              className="w-full p-3 rounded border border-gray-300 text-sm"
               required
             />
           </div>
 
           {error && (
-            <div style={{ 
-              backgroundColor: "#f8d7da", 
-              color: "#721c24", 
-              padding: "12px", 
-              borderRadius: "4px",
-              marginBottom: "20px",
-              fontSize: "14px",
-              border: "1px solid #f5c6cb"
-            }}>
+            <div className="bg-red-100 text-red-800 p-3 rounded mb-5 text-sm border border-red-200">
               {error}
             </div>
           )}
 
-          <button 
-            type="submit" 
-            style={{ 
-              width: "100%", 
-              padding: "12px", 
-              backgroundColor: "#007bff", 
-              color: "white", 
-              border: "none", 
-              borderRadius: "4px", 
-              fontSize: "16px",
-              fontWeight: "500",
-              cursor: "pointer",
-              transition: "background-color 0.2s"
-            }}
-            onMouseOver={(e) => e.target.style.backgroundColor = "#0056b3"}
-            onMouseOut={(e) => e.target.style.backgroundColor = "#007bff"}
+          <button
+            type="submit"
+            className="w-full p-3 bg-blue-600 text-white rounded text-lg font-medium cursor-pointer hover:bg-blue-800 transition-colors"
           >
             Login
           </button>
         </form>
 
-        <div style={{ 
-          marginTop: "20px", 
-          textAlign: "center", 
-          color: "#999", 
-          fontSize: "12px" 
-        }}>
+        <div className="mt-5 text-center text-gray-500 text-xs">
           Please contact your administrator if you need assistance
         </div>
       </div>

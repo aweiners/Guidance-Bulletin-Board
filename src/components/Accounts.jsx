@@ -31,16 +31,17 @@ export default function Accounts({ role }) {
     const endpoint = editingId
       ? `http://localhost:5000/accounts/${editingId}`
       : `http://localhost:5000/accounts`;
+
     fetch(endpoint, {
       method,
       headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
       body: JSON.stringify(form)
     })
-    .then(() => {
-      setForm({ username: "", password: "", role: "user" });
-      setEditingId(null);
-      fetchAccounts();
-    });
+      .then(() => {
+        setForm({ username: "", password: "", role: "user" });
+        setEditingId(null);
+        fetchAccounts();
+      });
   };
 
   const handleEdit = (acc) => {
@@ -54,72 +55,76 @@ export default function Accounts({ role }) {
       method: "DELETE",
       headers: { "Authorization": `Bearer ${token}` }
     })
-    .then(() => fetchAccounts())
-    .catch(console.error);
+      .then(() => fetchAccounts())
+      .catch(console.error);
   };
 
   if (role !== "admin") {
     return (
-      <div style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}>
-        <div style={{ backgroundColor: "#fff3cd", border: "1px solid #ffc107", borderRadius: "8px", padding: "20px", textAlign: "center" }}>
-          <h2 style={{ color: "#856404", marginTop: 0 }}>Accounts (Admin Only)</h2>
-          <p style={{ color: "#856404" }}>You do not have permission to view accounts.</p>
+      <div className="max-w-[900px] mx-auto p-5">
+        <div className="bg-yellow-100 border border-yellow-500 rounded-lg p-5 text-center">
+          <h2 className="text-yellow-800 mt-0">Accounts (Admin Only)</h2>
+          <p className="text-yellow-800">You do not have permission to view accounts.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "20px" }}>
-      <div style={{ backgroundColor: "#f8f9fa", borderRadius: "8px", padding: "20px", marginBottom: "20px" }}>
-        <h2 style={{ marginTop: 0, color: "#333", borderBottom: "2px solid #28a745", paddingBottom: "10px" }}>
+    <div className="max-w-[900px] mx-auto p-5">
+      <div className="bg-gray-100 rounded-lg p-5 mb-5">
+        <h2 className={`mt-0 text-gray-800 border-b-2 border-green-600 pb-2`}>
           {editingId ? "Edit Account" : "Manage Accounts"}
         </h2>
-        
-        <form onSubmit={handleSubmit} style={{ backgroundColor: "white", padding: "15px", borderRadius: "6px", marginBottom: "20px" }}>
-          <div style={{ marginBottom: "10px" }}>
-            <input 
-              placeholder="Username" 
-              value={form.username} 
+
+        <form onSubmit={handleSubmit} className="bg-white p-4 rounded-lg mb-5">
+          <div className="mb-2">
+            <input
+              placeholder="Username"
+              value={form.username}
               onChange={(e) => setForm({ ...form, username: e.target.value })}
-              style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd", boxSizing: "border-box" }}
+              className="w-full p-2 rounded border border-gray-300 box-border"
               required
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
-            <input 
-              type="password" 
-              placeholder="Password" 
-              value={form.password} 
+
+          <div className="mb-2">
+            <input
+              type="password"
+              placeholder="Password"
+              value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd", boxSizing: "border-box" }}
+              className="w-full p-2 rounded border border-gray-300 box-border"
               required={!editingId}
             />
           </div>
-          <div style={{ marginBottom: "10px" }}>
-            <select 
-              value={form.role} 
+
+          <div className="mb-2">
+            <select
+              value={form.role}
               onChange={(e) => setForm({ ...form, role: e.target.value })}
-              style={{ width: "100%", padding: "8px", borderRadius: "4px", border: "1px solid #ddd", boxSizing: "border-box" }}
+              className="w-full p-2 rounded border border-gray-300 box-border"
             >
               <option value="user">User</option>
               <option value="admin">Admin</option>
             </select>
           </div>
-          <button 
+
+          <button
             type="submit"
-            style={{ padding: "10px 20px", backgroundColor: "#28a745", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
+            className="px-5 py-2 bg-green-600 text-white rounded cursor-pointer"
           >
             {editingId ? "Update Account" : "Create Account"}
           </button>
+
           {editingId && (
-            <button 
+            <button
               type="button"
               onClick={() => {
                 setEditingId(null);
                 setForm({ username: "", password: "", role: "user" });
               }}
-              style={{ padding: "10px 20px", backgroundColor: "#6c757d", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", marginLeft: "10px" }}
+              className="px-5 py-2 bg-gray-600 text-white rounded cursor-pointer ml-2"
             >
               Cancel
             </button>
@@ -127,33 +132,32 @@ export default function Accounts({ role }) {
         </form>
 
         <div>
-          <h3 style={{ color: "#333", marginBottom: "15px" }}>All Accounts</h3>
+          <h3 className="text-gray-800 mb-4">All Accounts</h3>
           {Array.isArray(accounts) && accounts.length > 0 ? (
             accounts.map(acc => (
-              <div key={acc.id} style={{ backgroundColor: "white", padding: "15px", borderRadius: "6px", marginBottom: "10px", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div
+                key={acc.id}
+                className="bg-white p-4 rounded-lg mb-2 shadow-sm flex justify-between items-center"
+              >
                 <div>
-                  <strong style={{ color: "#333", fontSize: "16px" }}>{acc.username}</strong>
-                  <span style={{ 
-                    marginLeft: "10px",
-                    padding: "4px 8px", 
-                    borderRadius: "4px",
-                    fontSize: "12px",
-                    backgroundColor: acc.role === "admin" ? "#d4edda" : "#e7f3ff",
-                    color: acc.role === "admin" ? "#155724" : "#004085"
-                  }}>
+                  <strong className="text-gray-800 text-lg">{acc.username}</strong>
+                  <span className={`ml-2 px-2 py-1 rounded text-xs ${acc.role === "admin"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-blue-100 text-blue-800"
+                    }`}>
                     {acc.role}
                   </span>
                 </div>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <button 
+                <div className="flex gap-2">
+                  <button
                     onClick={() => handleEdit(acc)}
-                    style={{ padding: "6px 12px", backgroundColor: "#007bff", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "12px" }}
+                    className="px-3 py-1 bg-blue-600 text-white rounded cursor-pointer text-xs"
                   >
                     Edit
                   </button>
-                  <button 
+                  <button
                     onClick={() => handleDelete(acc.id)}
-                    style={{ padding: "6px 12px", backgroundColor: "#dc3545", color: "white", border: "none", borderRadius: "4px", cursor: "pointer", fontSize: "12px" }}
+                    className="px-3 py-1 bg-red-600 text-white rounded cursor-pointer text-xs"
                   >
                     Delete
                   </button>
@@ -161,7 +165,7 @@ export default function Accounts({ role }) {
               </div>
             ))
           ) : (
-            <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "6px", textAlign: "center", color: "#999" }}>
+            <div className="bg-white p-5 rounded-lg text-center text-gray-500">
               No accounts available
             </div>
           )}
